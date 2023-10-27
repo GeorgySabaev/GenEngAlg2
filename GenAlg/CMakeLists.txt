@@ -3,7 +3,7 @@
 #
 
 # Добавьте источник в исполняемый файл этого проекта.
-add_executable (GenAlg "main.cpp" "KnapsackProblem.cpp" "Chromosome.cpp" "SolverGEA.cpp" "Solvers.cpp")
+add_executable (GenAlg "main.cpp" "KnapsackProblem.cpp" "Chromosome.cpp" "SolverGEA.cpp" "Solvers.cpp" "SolverGA.h" "SolverGA.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET GenAlg PROPERTY CXX_STANDARD 20)
