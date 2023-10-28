@@ -4,8 +4,8 @@
 namespace GenAlg {
 
 ReverseMutationOperator::ReverseMutationOperator(size_t mutation_count,
-                                                 bool guided)
-    : mutation_count_(mutation_count), guided_(guided) {}
+                                                 bool is_guided)
+    : mutation_count_(mutation_count), is_guided_(is_guided) {}
 
 void ReverseMutationOperator::operator()(
     std::vector<SolverGA::chromosome_type>& population, SolverGA& solver) {
@@ -20,12 +20,12 @@ void ReverseMutationOperator::operator()(
         auto bounds = RandFunctions<size_t>::sample(
             engine, solver.get_chromosome_size(), 2);
         while (bounds[0] < bounds[1]) {
-            if (guided_) {
+            if (is_guided_) {
                 if (solver.get_mask()[i][bounds[0]]) {
                     ++bounds[0];
                     continue;
                 }
-                if (guided_ && solver.get_mask()[i][bounds[1]]) {
+                if (is_guided_ && solver.get_mask()[i][bounds[1]]) {
                     --bounds[1];
                     continue;
                 }
