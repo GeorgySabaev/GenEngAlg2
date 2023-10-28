@@ -1,8 +1,7 @@
 #pragma once
 #include <functional>
-#include <span>
-#include <vector>
 #include <random>
+#include <vector>
 
 namespace GenAlg {
 
@@ -11,11 +10,13 @@ class SolverGA {
     using score_type = int64_t;
     using chromosome_type = std::vector<char>;
     using assesser_type = std::function<score_type(chromosome_type const&)>;
-    using operation_type = std::function<void(std::vector<chromosome_type>&, SolverGA const&)>;
+    using operation_type =
+        std::function<void(std::vector<chromosome_type>&, SolverGA&)>;
 
-    SolverGA(assesser_type assesser, std::mt19937 rand_engine, size_t pop_size,
+    SolverGA(assesser_type assesser, std::mt19937_64 rand_engine,
+             size_t chromosome_size, size_t population_size,
              size_t survivor_size, size_t mask_threshold,
-             std::span<operation_type> operations);
+             const std::vector<operation_type>& operations);
 
     const chromosome_type& get_best_result() const;
     score_type get_best_score() const;
@@ -26,6 +27,7 @@ class SolverGA {
     size_t get_survivor_size() const;
     size_t get_mask_threshold() const;
     size_t get_dom_chromosome() const;
+    std::mt19937_64 get_rand_engine();
 
     score_type iterate();
 
@@ -38,7 +40,7 @@ class SolverGA {
     size_t mask_threshold_;
     size_t dom_chrom_index_;
 
-    std::mt19937 rand_engine_;
+    std::mt19937_64 rand_engine_;
 
     std::vector<chromosome_type> population_;
     std::vector<chromosome_type> mask_;
@@ -49,4 +51,4 @@ class SolverGA {
     void randomise_chromosome(chromosome_type& c);
 };
 
-}
+}  // namespace GenAlg

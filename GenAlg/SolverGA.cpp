@@ -1,13 +1,23 @@
 #include "SolverGA.h"
 #include <array>
 #include <cassert>
+#include <set>
 
 namespace GenAlg {
 
-SolverGA::SolverGA(assesser_type assesser, std::mt19937 rand_engine,
-                 size_t pop_size,
-         size_t survivor_size, size_t mask_threshold,
-         std::span<operation_type> operations) {}
+SolverGA::SolverGA(assesser_type assesser, std::mt19937_64 rand_engine,
+                   size_t chromosome_size, size_t population_size,
+                   size_t survivor_size, size_t mask_threshold,
+                   const std::vector<operation_type>& operations)
+    : assesser_(assesser),
+      rand_engine_(rand_engine),
+      chromosome_size_(chromosome_size),
+      population_size_(population_size),
+      survivor_size_(survivor_size),
+      mask_threshold_(mask_threshold),
+      operations_(operations) {
+    randomise_population();
+}
 
 const SolverGA::chromosome_type& SolverGA::get_best_result() const {
     assert((!population_.empty()) && "Population must not be empty");
@@ -46,11 +56,19 @@ size_t SolverGA::get_dom_chromosome() const {
     return dom_chrom_index_;
 }
 
+std::mt19937_64 SolverGA::get_rand_engine() {
+    return rand_engine_;
+}
+
 SolverGA::score_type SolverGA::iterate() {
     generate_mask();
     for (auto operation : operations_) {
         operation(population_, *this);
     }
+    
+    std::set<chromosome_type> pop_set(population_.begin(), population_.end());
+    population_ = std::vector<chromosome_type>(pop_set.begin(), pop_set.end());
+
     std::sort(population_.begin(), population_.end(),
               [this](chromosome_type a, chromosome_type b) {
                   return assesser_(a) > assesser_(b);
@@ -60,8 +78,8 @@ SolverGA::score_type SolverGA::iterate() {
 }
 
 void SolverGA::generate_mask() {
-    mask_ = std::vector<chromosome_type>(
-        population_size_, chromosome_type(chromosome_size_));
+    mask_ = std::vector<chromosome_type>(population_size_,
+                                         chromosome_type(chromosome_size_));
     std::array<std::array<size_t, 2>, 2> repeats;
     std::vector<size_t> locked_count(population_size_);
 
@@ -89,6 +107,8 @@ void SolverGA::generate_mask() {
 }
 
 void SolverGA::randomise_population() {
+    population_ = std::vector<chromosome_type>(
+        population_size_, chromosome_type(chromosome_size_));
     for (auto& c : population_) {
         randomise_chromosome(c);
     }
