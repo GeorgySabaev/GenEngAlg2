@@ -12,7 +12,7 @@ CrossoverOperator::CrossoverOperator(size_t pair_count, bool is_double_point,
 void CrossoverOperator::operator()(
     std::vector<SolverGA::chromosome_type>& population, SolverGA& solver) {
 
-    auto engine = solver.get_rand_engine();
+    auto& engine = solver.get_rand_engine();
     std::vector<size_t> selected;
     if (is_guided_) {
         selected = RandFunctions<size_t>::sample(

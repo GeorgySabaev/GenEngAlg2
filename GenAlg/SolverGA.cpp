@@ -56,7 +56,7 @@ size_t SolverGA::get_dom_chromosome() const {
     return dom_chrom_index_;
 }
 
-std::mt19937_64 SolverGA::get_rand_engine() {
+std::mt19937_64& SolverGA::get_rand_engine() {
     return rand_engine_;
 }
 

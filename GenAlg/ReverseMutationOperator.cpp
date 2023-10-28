@@ -10,7 +10,7 @@ ReverseMutationOperator::ReverseMutationOperator(size_t mutation_count,
 void ReverseMutationOperator::operator()(
     std::vector<SolverGA::chromosome_type>& population, SolverGA& solver) {
 
-    auto engine = solver.get_rand_engine();
+    auto& engine = solver.get_rand_engine();
 
     for (auto i : RandFunctions<size_t>::sample(
              engine, solver.get_survivor_size(), mutation_count_)) {

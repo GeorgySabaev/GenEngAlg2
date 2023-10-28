@@ -27,7 +27,7 @@ class SolverGA {
     size_t get_survivor_size() const;
     size_t get_mask_threshold() const;
     size_t get_dom_chromosome() const;
-    std::mt19937_64 get_rand_engine();
+    std::mt19937_64& get_rand_engine();
 
     score_type iterate();
 
