@@ -1,6 +1,7 @@
 #include <iostream>
 #include <random>
 #include "CrossoverOperator.h"
+#include "InsertionOperator.h"
 #include "KnapsackProblemAssesser.h"
 #include "RandFunctions.h"
 #include "ReverseMutationOperator.h"
@@ -23,15 +24,17 @@ int main() {
     GenAlg::KnapsackProblemAssesser assesser(capacity, weights);
     std::vector<GenAlg::SolverGA::operation_type> solvers;
     solvers = {
-        GenAlg::FlipMutationOperator(50),
+        GenAlg::FlipMutationOperator(50, false),
         GenAlg::FlipMutationOperator(50, true),
-        GenAlg::ReverseMutationOperator(50),
+        GenAlg::ReverseMutationOperator(50, false),
         GenAlg::ReverseMutationOperator(50, true),
-        GenAlg::CrossoverOperator(30, false),
-        GenAlg::CrossoverOperator(30, true),
-        GenAlg::CrossoverOperator(30, true, true),
+        GenAlg::CrossoverOperator(15, false, false),
+        GenAlg::CrossoverOperator(15, true, false),
+        GenAlg::CrossoverOperator(15, false, true),
+        GenAlg::CrossoverOperator(15, true, true),
+        GenAlg::InsertionOperator(50),
     };
-    GenAlg::SolverGA solver(assesser, gen_engine, weight_count, 400, 300, 200,
+    GenAlg::SolverGA solver(assesser, gen_engine, weight_count, 600, 400, 300,
                             solvers);
 
 
