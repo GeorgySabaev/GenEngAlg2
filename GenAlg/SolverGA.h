@@ -13,7 +13,7 @@ class SolverGA {
     using operation_type =
         std::function<void(std::vector<chromosome_type>&, SolverGA&)>;
 
-    SolverGA(assesser_type assesser, std::mt19937_64 rand_engine,
+    SolverGA(assesser_type assesser, std::mt19937_64::result_type rand_seed,
              size_t chromosome_size, size_t population_size,
              size_t survivor_size, size_t mask_threshold,
              const std::vector<operation_type>& operations);

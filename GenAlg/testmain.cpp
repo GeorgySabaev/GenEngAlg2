@@ -34,7 +34,7 @@ int main() {
         GenAlg::CrossoverOperator(15, true, true),
         GenAlg::InsertionOperator(50),
     };
-    GenAlg::SolverGA solver(assesser, gen_engine, weight_count, 600, 400, 300,
+    GenAlg::SolverGA solver(assesser, 42, weight_count, 600, 400, 300,
                             solvers);
 
 

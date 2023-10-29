@@ -5,12 +5,13 @@
 
 namespace GenAlg {
 
-SolverGA::SolverGA(assesser_type assesser, std::mt19937_64 rand_engine,
+SolverGA::SolverGA(assesser_type assesser,
+                   std::mt19937_64::result_type rand_seed,
                    size_t chromosome_size, size_t population_size,
                    size_t survivor_size, size_t mask_threshold,
                    const std::vector<operation_type>& operations)
     : assesser_(assesser),
-      rand_engine_(rand_engine),
+      rand_engine_(rand_seed),
       chromosome_size_(chromosome_size),
       population_size_(population_size),
       survivor_size_(survivor_size),
