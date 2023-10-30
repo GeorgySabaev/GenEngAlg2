@@ -5,34 +5,9 @@
 #include "RandFunctions.h"
 #include "SolverFactory.h"
 #include "SolverGA.h"
+#include "CSVPrinter.h"
 
 namespace GenAlgBenchmark {
-void print_CSV(std::string path,
-               std::vector<std::vector<GenAlg::SolverGA::score_type>>& table) {
-    std::ofstream out;
-    out.open(path);
-    for (auto row : table) {
-        out << row[0];
-        for (size_t i = 1; i < row.size(); i++) {
-            out << "," << row[i];
-        }
-        out << std::endl;
-    }
-    out.close();
-}
-
-void print_CSV(std::string path,
-               std::vector<GenAlg::SolverGA::score_type>& row) {
-    std::ofstream out;
-    out.open(path);
-    out << row[0];
-    for (size_t i = 1; i < row.size(); i++) {
-        out << "," << row[i];
-    }
-    out << std::endl;
-    out.close();
-}
-
 void benchmark(std::string groupName, GenAlg::KnapsackProblemAssesser problem,
                size_t var_count, int iterations, int attempts) {
     using score_t = GenAlg::SolverGA::score_type;
@@ -56,7 +31,8 @@ void benchmark(std::string groupName, GenAlg::KnapsackProblemAssesser problem,
         }
     }
     for (size_t i = 0; i < 5; i++) {
-        print_CSV(groupName + "_" + names[i] + ".csv", results[i]);
+        GenAlg::CSVPrinter<score_t> printer;
+        printer.print_table(groupName + "_" + names[i] + ".csv", results[i]);
     }
 }
 }  // namespace GenAlgBenchmark
@@ -88,7 +64,8 @@ int main() {
     for (size_t i = 0; i < group_names.size(); i++) {
         std::vector<score_t> scores(group_sizes[i]);
         std::generate(scores.begin(), scores.end(), group_gen_funcs[i]);
-        GenAlgBenchmark::print_CSV(group_names[i] + "_input.txt", scores);
+        GenAlg::CSVPrinter<score_t> printer;
+        printer.print_row(group_names[i] + "_input.txt", scores);
         size_t capacity_score =
             group_maxvalues[i] * group_capacities[i] * group_sizes[i];
         GenAlg::KnapsackProblemAssesser assesser(capacity_score, scores);
