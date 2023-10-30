@@ -64,7 +64,7 @@ SolverGA SolverFactory::get_GEA1(SolverGA::assesser_type problem,
     return SolverGA(problem, rand_seed, variable_count, popSize_,
                     popSize_ * SURV_PART, popSize_ * MASK_PART, solvers);
 }
-SolverGA SolverFactory::ge_GEA2(SolverGA::assesser_type problem,
+SolverGA SolverFactory::get_GEA2(SolverGA::assesser_type problem,
                                       size_t variable_count,
                                       std::mt19937_64::result_type rand_seed) {
     const size_t OPER_NUM = 2;
