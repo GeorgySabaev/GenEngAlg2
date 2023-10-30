@@ -9,7 +9,7 @@ namespace GenAlg {
 SolverFactory::SolverFactory(size_t popSize, size_t extendedPopSize)
     : popSize_(popSize), extendedPopSize_(extendedPopSize) {}
 
-SolverGA SolverFactory::getSolverGA(SolverGA::assesser_type problem,
+SolverGA SolverFactory::get_GA(SolverGA::assesser_type problem,
                                     size_t variable_count,
                                     std::mt19937_64::result_type rand_seed) {
 
@@ -36,7 +36,7 @@ SolverGA SolverFactory::getSolverGA(SolverGA::assesser_type problem,
     return SolverGA(problem, rand_seed, variable_count, popSize_,
                     popSize_ * SURV_PART, popSize_ * MASK_PART, solvers);
 }
-SolverGA SolverFactory::getSolverGEA1(SolverGA::assesser_type problem,
+SolverGA SolverFactory::get_GEA1(SolverGA::assesser_type problem,
                                       size_t variable_count,
                                       std::mt19937_64::result_type rand_seed) {
     const size_t OPER_NUM = 2;
@@ -64,7 +64,7 @@ SolverGA SolverFactory::getSolverGEA1(SolverGA::assesser_type problem,
     return SolverGA(problem, rand_seed, variable_count, popSize_,
                     popSize_ * SURV_PART, popSize_ * MASK_PART, solvers);
 }
-SolverGA SolverFactory::getSolverGEA2(SolverGA::assesser_type problem,
+SolverGA SolverFactory::ge_GEA2(SolverGA::assesser_type problem,
                                       size_t variable_count,
                                       std::mt19937_64::result_type rand_seed) {
     const size_t OPER_NUM = 2;
@@ -92,7 +92,7 @@ SolverGA SolverFactory::getSolverGEA2(SolverGA::assesser_type problem,
     return SolverGA(problem, rand_seed, variable_count, popSize_,
                     popSize_ * SURV_PART, popSize_ * MASK_PART, solvers);
 }
-SolverGA SolverFactory::getSolverGEA3(SolverGA::assesser_type problem,
+SolverGA SolverFactory::get_GEA3(SolverGA::assesser_type problem,
                                       size_t variable_count,
                                       std::mt19937_64::result_type rand_seed) {
     const size_t OPER_NUM = 3;
@@ -119,7 +119,7 @@ SolverGA SolverFactory::getSolverGEA3(SolverGA::assesser_type problem,
     return SolverGA(problem, rand_seed, variable_count, popSize_,
                     popSize_ * SURV_PART, popSize_ * MASK_PART, solvers);
 }
-SolverGA SolverFactory::getSolverGEA(SolverGA::assesser_type problem,
+SolverGA SolverFactory::get_GEA(SolverGA::assesser_type problem,
                                      size_t variable_count,
                                      std::mt19937_64::result_type rand_seed) {
     const size_t OPER_NUM = 3;
@@ -149,5 +149,21 @@ SolverGA SolverFactory::getSolverGEA(SolverGA::assesser_type problem,
 
     return SolverGA(problem, rand_seed, variable_count, popSize_,
                     popSize_ * SURV_PART, popSize_ * MASK_PART, solvers);
+}
+std::vector<SolverGA> SolverFactory::get_solvers(
+    SolverGA::assesser_type problem, size_t variable_count,
+    std::mt19937_64::result_type rand_seed) {
+    std::vector<GenAlg::SolverGA> solvers;
+    solvers.push_back(
+        get_GA(problem, variable_count, rand_seed));
+    solvers.push_back(
+        get_GEA1(problem, variable_count, rand_seed));
+    solvers.push_back(
+        get_GEA2(problem, variable_count, rand_seed));
+    solvers.push_back(
+        get_GEA3(problem, variable_count, rand_seed));
+    solvers.push_back(
+        get_GEA(problem, variable_count, rand_seed));
+    return solvers;
 }
 }  // namespace GenAlg

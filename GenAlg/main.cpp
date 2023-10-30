@@ -51,18 +51,9 @@ void solveBenchmark(std::string groupName,
     for (size_t attempt = 0; attempt < attempts; attempt++) {
         GenAlg::SolverFactory solver_factory(400, 800);
 
-        std::vector<GenAlg::SolverGA> solvers;
-        std::mt19937_64::result_type rand_seed = gen_engine();
-        solvers.push_back(
-            solver_factory.getSolverGA(problem, var_count, rand_seed));
-        solvers.push_back(
-            solver_factory.getSolverGEA1(problem, var_count, rand_seed));
-        solvers.push_back(
-            solver_factory.getSolverGEA2(problem, var_count, rand_seed));
-        solvers.push_back(
-            solver_factory.getSolverGEA3(problem, var_count, rand_seed));
-        solvers.push_back(
-            solver_factory.getSolverGEA(problem, var_count, rand_seed));
+        std::vector<GenAlg::SolverGA> solvers =
+            solver_factory.get_solvers(problem, var_count, gen_engine());
+
         for (size_t i = 0; i < 5; i++) {
             results[i].emplace_back(iterations);
             for (size_t j = 0; j < iterations; j++) {
